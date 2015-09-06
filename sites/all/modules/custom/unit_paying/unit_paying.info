@@ -1,0 +1,4 @@
+name = Administrador de unidades.
+description = "Provee servicios administrativos para el cobro de servicios a unidades"
+package = unidades
+core = 7.x

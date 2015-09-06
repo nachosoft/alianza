@@ -1,0 +1,8 @@
+<?php
+include_once('inc/permissions.inc');
+include_once('inc/data.inc');
+include_once('inc/menu.inc');
+include_once('inc/form.inc');
+include_once('inc/theme.inc');
+//include_once('inc/block.inc');
+//include_once('inc/form-alter.inc');

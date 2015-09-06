@@ -1,0 +1,30 @@
+<?php 
+/**
+ * Implements hook_schema().
+ */
+function unit_paying_schema(){
+  $schema['unit_paying_caja_settings'] = array(
+    'description' => t('Tabla creada para almacenar configuraciones de las cajas'),
+    'fields' => array(
+      'caja' => array(
+        'description' => 'nombre de cajas',
+        'type' => 'int', 
+        'unsigned' => true, 
+        'not null' => true, 
+        'default' => 0, 
+        ), 
+      'folio_caja' => array(
+        'description' => 'Folio de la caja',
+        'type' => 'int', 
+        'unsigned' => true, 
+        'not null' => true, 
+        'default' => 0, 
+        ), 
+    ),
+    'unique keys' => array(
+      'caja' => array('caja'),
+    ),
+    'primary key' => array('caja'),
+  );
+  return $schema;
+}
