@@ -1,10 +1,23 @@
 <div id="caja" class="club" ng-app="cajaApp">
   <div class="caja_inner" ng-controller="searchCtrl">
     <div class="selector_form">
-      <form id="selector" ng-submit="buscarNo()">
+      <form id="selector" ng-submit="buscarNo()" style="display:inline-block">
         <input type="text" ng-model="n_unidad" id="n_unidad" name="n_unidad" placeholder="No. de Unidad">
-        <input type="submit" value="buscar">
+        <label>
+          <input class="btn btn-info btn-lg" type="submit" value="buscar">
+        </label>
       </form>
+      <div style="margin-left:20px; display:inline-block;">
+        <div class="btn btn-default btn-sm"  >
+          <label>
+            <input type="checkbox" ng-model="deudaStatus" name="deudaStatus" ng-true-value="0" ng-false-value="1">
+            <span>Ocultar deuda de unidad</span>
+          </label>
+        </div>
+        <button ng-click="deudaRecibo = calcularDeuda()" class="btn btn-info btn-lg" >
+          <span class="glyphicon glyphicon-refresh"></span> Actualizar
+        </button>
+      </div>
     </div>
     <div class="info card">
       <div class="socio info_block odd">
@@ -65,8 +78,8 @@
             <tr class="item">
               <td>{{concept.periodo | htmlToPlaintext}}</td>
               <td>{{concept.titulo}}</td>
-              <td>{{concept.valor | currency}}</td>
-              <td>{{concept.valor | currency}}</td>
+              <td>{{concept.valor | currencySimbol}}</td>
+              <td>{{concept.valor | currencySimbol}}</td>
               <td><button ng-click='removeConcept(key)' class="btn btn-danger erase">Eliminar</button></td>
             </tr>
           </tbody>
@@ -98,6 +111,7 @@
         </div>
         <label for="pago">Pago:</label>
         <input type="number" id="pago" name="pago"  ng-model="pago" placeholder="$0.00">
+        <div><h3> {{calcularCambio()}}</h3></div>
         <input class="btn btn-success btn-lg" type="submit" value="pagar">
       </form>
     </div>

@@ -14,6 +14,12 @@ function unit_paying_menu() {
     'access arguments' => array('usar caja'), 
     'type' => MENU_CALLBACK, 
   );
+  $items['codes/unic'] = array(
+    'title' => 'Unico concepto Dueño',
+    'page callback' => 'unit_paying_code_validate', 
+    'access arguments' => array('usar caja'), 
+    'type' => MENU_CALLBACK, 
+  );
 
   return $items;
 }
@@ -75,4 +81,38 @@ function unit_paying_process(){
   $recibo = unit_paying_create_node($data, 'recibo',$user);
 
   print_r($data);
+}
+
+
+// Revisa si el codigo es unico para ese dueno
+function unit_paying_code_validate(){
+  if (isset($_GET['unit'])) {
+    $unitId = $_GET['unit'];
+  } else {
+    return false;
+  }
+
+  if (isset($_GET['id'])) {
+    $codeId = $_GET['id'];
+  } else {
+    return false;
+  }
+
+
+  $unit = node_load($unitId);
+
+  $owner = node_load($unit->field_owner[LANGUAGE_NONE][0]['target_id']);
+  $response =  0;
+
+  if (is_array($owner->field_unic_codes[LANGUAGE_NONE])) {
+    foreach ($owner->field_unic_codes[LANGUAGE_NONE] as $key => $code) {
+      if (in_array($codeId, $code)) {
+        $response = 1;
+      }
+    }
+  }
+
+
+  echo $response;
+  //print_r($response);
 }

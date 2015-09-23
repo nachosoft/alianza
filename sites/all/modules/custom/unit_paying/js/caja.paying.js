@@ -1,7 +1,19 @@
 var cajaApp = angular.module('cajaApp', []);
+var $j = jQuery.noConflict();
 
 jQuery(document).ready(function($){
-
+  // Asignar nombre a la caja
+  if (localStorage["caja"]) {
+    caja = localStorage["caja"];
+    cajaText = 'Caja';
+    if(caja == 1){
+      cajaText = 'Caja - Club de Servicios';
+    } else if(caja == 2){
+      cajaText = 'Caja - Tesoreria';
+    }
+    $('.page-header').text(cajaText);
+  };
+  // Crear selector de caja
   if (!localStorage["caja"]) {
     body = $('body');
 
@@ -16,10 +28,16 @@ jQuery(document).ready(function($){
     body.prepend(form);
   };
 
+  // tomar el submit de el selector de caja
   $('#get_caja').submit(function(event) {
     cajaValue = $('#caja').val();
+    var d = new Date();
+    var n = Date.parse(d);
 
+    // Id de la caja
     localStorage.setItem('caja', cajaValue);
+    // Fecha de apertura
+    localStorage.setItem('cajaOpen', n);
 
     location.reload();
     return true;
@@ -34,6 +52,23 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
   $scope.ownerId = 0;
   $scope.ownerName = '';
   $scope.unitId = 0;
+
+  $scope.deudaStatus = 1;
+  // Hace la suma de los conceptos y la deuda remanente de la unidad
+  $scope.calcularDeuda = function(){
+    var total = 0;
+    for(var i = 0; i < $scope.conceptos.length; i++){
+      var concept = $scope.conceptos[i];
+      total += parseInt(concept.valor);
+    }
+
+    if ($scope.deudaStatus != 0) {
+      total += parseInt($scope.deuda);
+    };
+    
+
+    return total ;
+  };
 
   if (localStorage.caja) {
     $scope.caja = localStorage["caja"];
@@ -51,6 +86,19 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
 
   $scope.paraPagar = null;
 
+  $scope.calcularCambio = function(){
+    dif = $scope.deudaRecibo - $scope.pago;
+    if (dif < 0 ){
+      dif = dif *-1;
+      dif = Math.round(dif * 100) / 100;
+      dif = 'Cambio $' + dif; 
+    }else{
+      dif = 'no dar cambio';
+    }
+    return dif;
+  }
+
+  // Optiene el valor para los conceptos de valor asignable
   $scope.getValor = function(label){
     var value = prompt("Inserta el valor para "+label, 0);
     if (value != null) {
@@ -58,6 +106,13 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
     }
   }
 
+  // Revisa si el cobro ha sido unico para ese dueno.
+  $scope.getUniqueValor = function(unidad,id,valorDefault){
+    
+    
+  }
+
+  //Busca el numero de unidad y retorna los datos de la unidad y del dueno
   $scope.buscarNo = function(){
     if ($scope.n_unidad) {
 
@@ -85,16 +140,40 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
     };
   };
 
+  // Busca el codigo de cobro
   $scope.buscarCodigo = function(){
+    if ($scope.unitId == 0) {
+      alert('Seleccione una unidad');
+      return;
+    };
     if ($scope.codigo) {
       $http.get('/rest/codigos?code='+$scope.codigo+'&caja='+$scope.caja).
         success(function(data, status, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
           if (data[0]){
+            // Si el valor es asignable abre el popup
             if(data[0].tipo == 2){
               data[0].Valor = $scope.getValor(data[0].Concepto);
             }
+            // si el valor es unico por dueño calcula a 0 si ya lo pago una vez
+            if (data[0].unico == 1) {
+              //var valorUnico = $scope.getUniqueValor($scope.unitId, data[0].nid,data[0].Valor);
+              var Valor = data[0].Valor;
+             
+              $j.get( "/codes/unic", { unit: $scope.unitId, id: data[0].nid } )
+                .done(function( dat ) {
+                  console.log(dat);
+                  console.log(dat);
+                  if (parseInt(dat) == 0) {
+                    alert('Este Dueño ya pago este concepto, al ser unico, el costo se volvera $0.00');
+                    Valor = 0;
+                    console.log(dat);
+                    data[0].Valor = Valor;
+                  };
+                });
+            };
+            console.log(data[0].Valor);
             cData = {
               titulo  : data[0].Codigo +' '+ data[0].Concepto,
               valor   : data[0].Valor, 
@@ -118,23 +197,15 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
     };
   };
 
+  // Remueve conceptos y recalcula la deuda
   $scope.removeConcept = function(index){
     $scope.conceptos.splice(index, 1);
     $scope.deudaRecibo = $scope.calcularDeuda();
   };
 
-  $scope.calcularDeuda = function(){
-    var total = 0;
-    for(var i = 0; i < $scope.conceptos.length; i++){
-        var concept = $scope.conceptos[i];
-        total += parseInt(concept.valor);
-    }
+  
 
-    total += parseInt($scope.deuda);
-
-    return total ;
-  };
-
+  // Si hay algun cobro por hacer, abrira el popup de pago.
   $scope.abrirPago = function(){
     if ($scope.unitId == 0) {
       alert('Seleccione una unidad');
@@ -147,6 +218,7 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
     $scope.paraPagar = false;
   };
 
+  // Manda la llamada de ajax para crear el recibo, y abre el recibo en una ventana emergente
   $scope.terminarPago = function(){
     
     $http.get('/rest/units?no='+$scope.n_unidad).
@@ -177,6 +249,9 @@ cajaApp.filter('currency',
     }
 });
 
-  
-
-
+cajaApp.filter('currencySimbol',
+  function () {
+    return function(input) {
+      return '$'+ input;
+    }
+});
