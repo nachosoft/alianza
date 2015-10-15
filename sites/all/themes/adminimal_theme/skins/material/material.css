@@ -702,9 +702,7 @@ input[type="submit"][id^="edit-save"],
 input#edit-save,
 input#edit-submit,
 input#edit-actions-save,
-#media-browser-page a.button-yes,
-input.add-new-condition,
-#edit-field-product-und-form-actions input.ief-entity-submit {
+#media-browser-page a.button-yes {
   cursor: pointer;
   border: none;
   padding: 6px 18px;
@@ -726,9 +724,7 @@ input[type="submit"][id^="edit-save"]:hover,
 input#edit-save:hover,
 input#edit-submit:hover,
 input#edit-actions-save:hover,
-#media-browser-page a.button-yes:hover,
-input.add-new-condition:hover,
-#edit-field-product-und-form-actions input.ief-entity-submit:hover {
+#media-browser-page a.button-yes:hover {
   box-shadow: 0 2px 6px rgba(0,0,0,.3);
 }
 
@@ -739,9 +735,7 @@ input[type="submit"][id^="edit-save"]:active,
 input#edit-save:active,
 input#edit-submit:active,
 input#edit-actions-save:active,
-#media-browser-page a.button-yes:active,
-input.add-new-condition:active,
-#edit-field-product-und-form-actions input.ief-entity-submit:active {
+#media-browser-page a.button-yes:active {
   outline: none;
   box-shadow: inset 0 0px 8px rgba(0,0,0,0.4);
 }
@@ -753,9 +747,7 @@ input[type="submit"][id^="edit-save"]:focus,
 input#edit-save:focus,
 input#edit-submit:focus,
 input#edit-actions-save:focus,
-#media-browser-page a.button-yes:focus,
-input.add-new-condition:focus,
-#edit-field-product-und-form-actions input.ief-entity-submit:focus {
+#media-browser-page a.button-yes:focus {
   outline: none;
   box-shadow: inset 0 0px 8px rgba(0,0,0,0.4);
 }
@@ -768,9 +760,7 @@ input#edit-clear,
 a.button.remove,
 input[id*="remove-button"],
 .page-node-delete input#edit-submit,
-.page-admin-modules-uninstall input#edit-submit,
-.remove-condition input,
-.field-widget-inline-entity-form .ief-entity-operations input[id*="remove"].form-submit {
+.page-admin-modules-uninstall input#edit-submit {
   cursor: pointer;
   padding: 6px 18px;
   border: none;
@@ -793,9 +783,7 @@ input#edit-clear:hover,
 a.button.remove:hover,
 input[id*="remove-button"]:hover,
 .page-node-delete input#edit-submit:hover,
-body.page-admin-modules-uninstall input#edit-submit:hover,
-.remove-condition input:hover,
-.field-widget-inline-entity-form .ief-entity-operations input[id*="remove"].form-submit:hover {
+body.page-admin-modules-uninstall input#edit-submit:hover {
   box-shadow: 0 2px 6px rgba(0,0,0,.3);
 }
 
@@ -805,9 +793,7 @@ input#edit-remove:active,
 input#edit-clear:active,
 input[id*="remove-button"]:active,
 .page-node-delete input#edit-submit:active,
-body.page-admin-modules-uninstall input#edit-submit:active,
-.remove-condition input:active,
-.field-widget-inline-entity-form .ief-entity-operations input[id*="remove"].form-submit:active {
+body.page-admin-modules-uninstall input#edit-submit:active {
   outline: none;
   box-shadow: inset 0 0px 8px rgba(0,0,0,0.4);
 }
@@ -818,9 +804,7 @@ input#edit-remove:focus,
 input#edit-clear:focus,
 input[id*="remove-button"]:focus,
 .page-node-delete input#edit-submit:focus,
-body.page-admin-modules-uninstall input#edit-submit:focus,
-.remove-condition input:focus,
-.field-widget-inline-entity-form .ief-entity-operations input[id*="remove"].form-submit:focus {
+body.page-admin-modules-uninstall input#edit-submit:focus {
   outline: none;
   box-shadow: inset 0 0px 8px rgba(0,0,0,0.4);
 }
@@ -830,8 +814,7 @@ input#edit-preview,
 input#edit-next,
 input#preview-submit,
 input.ief-entity-submit,
-input[type="submit"][id^="edit-return"],
-.field-widget-inline-entity-form .ief-entity-operations input[id*="edit"] {
+input[type="submit"][id^="edit-return"] {
   cursor: pointer;
   border: none;
   padding: 6px 18px;
@@ -851,8 +834,7 @@ input#edit-preview:hover,
 input#edit-next:hover,
 input#preview-submit:hover,
 input.ief-entity-submit:hover,
-input[type="submit"][id^="edit-return"]:hover,
-.field-widget-inline-entity-form .ief-entity-operations input[id*="edit"]:hover {
+input[type="submit"][id^="edit-return"]:hover {
   box-shadow: 0 2px 6px rgba(0,0,0,.3);
 }
 
@@ -860,8 +842,7 @@ input#edit-preview:active,
 input#edit-next:active,
 input#preview-submit:active,
 input.ief-entity-submit:active,
-input[type="submit"][id^="edit-return"]:active,
-.field-widget-inline-entity-form .ief-entity-operations input[id*="edit"]:active {
+input[type="submit"][id^="edit-return"]:active {
   border: none;
   color: #fff;
   outline: none;
@@ -872,8 +853,7 @@ input#edit-preview:focus,
 input#edit-next:focus,
 input#preview-submit:focus,
 input.ief-entity-submit:focus,
-input[type="submit"][id^="edit-return"]:focus,
-.field-widget-inline-entity-form .ief-entity-operations input[id*="edit"]:focus {
+input[type="submit"][id^="edit-return"]:focus {
   border: none;
   color: #fff;
   outline: none;
@@ -884,8 +864,7 @@ input[type="submit"][id^="edit-return"]:focus,
 #edit-cancel,
 #edit-actions-cancel,
 input#edit-buttons-revert,
-#media-browser-page a.button-no,
-.field-widget-inline-entity-form input[id*="cancel"] {
+#media-browser-page a.button-no {
   cursor: pointer;
   border: none;
   padding: 6px 18px;
@@ -907,15 +886,13 @@ a#edit-cancel,a#edit-actions-cancel {
 #edit-cancel:hover,
 #edit-actions-cancel:hover,
 input#edit-buttons-revert:hover,
-#media-browser-page a.button-no:hover,
-.field-widget-inline-entity-form input[id*="cancel"]:hover {
+#media-browser-page a.button-no:hover {
   box-shadow: 0 2px 6px rgba(0,0,0,.3);
 }
 
 #edit-cancel:active,
 #edit-actions-cancel:active,
-input#edit-buttons-revert:active,
-.field-widget-inline-entity-form input[id*="cancel"]:active {
+input#edit-buttons-revert:active {
   background: #333;
   border: none;
   color: #fff;
@@ -925,8 +902,7 @@ input#edit-buttons-revert:active,
 
 #edit-cancel:focus,
 #edit-actions-cancel:focus,
-input#edit-buttons-revert:focus,
-.field-widget-inline-entity-form input[id*="cancel"]:focus {
+input#edit-buttons-revert:focus {
   background: #333;
   border: none;
   color: #fff;
