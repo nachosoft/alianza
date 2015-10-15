@@ -20,6 +20,12 @@ function unit_paying_menu() {
     'access arguments' => array('usar caja'), 
     'type' => MENU_CALLBACK, 
   );
+  $items['cajas/corte'] = array(
+    'title' => 'Corte de Caja',
+    'page callback' => 'unit_paying_corte_caja', 
+    'access arguments' => array('usar caja'), 
+    'type' => MENU_CALLBACK, 
+  );
 
   return $items;
 }
@@ -115,4 +121,18 @@ function unit_paying_code_validate(){
 
   echo $response;
   //print_r($response);
+}
+
+// Funcion para  crear  un corte de caja 
+function unit_paying_corte_caja(){
+  print_r('hola'); exit; 
+  if (isset($_GET['recibos'])) {
+    $recibos = $_GET['recibos'];
+  } else {
+    return false;
+  }
+
+  foreach ($recibos as $indice => $recibo) {
+    print_r($recibo); exit;
+  }
 }
