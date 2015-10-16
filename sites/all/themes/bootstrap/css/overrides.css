@@ -160,3 +160,11 @@ html.overlay-open .navbar-fixed-top{z-index:400}html.js fieldset.collapsed{heigh
   float: right;
 }
 
+.node-type-unit .group-left,
+.node-type-unit .group-right{
+  padding:2%;
+}
+
+#user-login-form ul li{
+  display:none;
+}
