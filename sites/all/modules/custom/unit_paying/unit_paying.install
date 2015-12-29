@@ -26,5 +26,42 @@ function unit_paying_schema(){
     ),
     'primary key' => array('caja'),
   );
+
+  /*$schema['unit_paying_caja_historial'] = array(
+    'description' => t('Tabla creada para almacenar el historial de los cortes de caja'),
+    'fields' => array(
+      'mid' => array(
+        'description' => 'id del movimiento',
+        'type' => 'serial', 
+        'unsigned' => true, 
+        'not null' => true, 
+        ), 
+      'caja' => array(
+        'description' => 'nombre de cajas',
+        'type' => 'int', 
+        'unsigned' => true, 
+        'not null' => true, 
+        'default' => 0, 
+        ), 
+      'folio_caja' => array(
+        'description' => 'Folio de la caja',
+        'type' => 'int', 
+        'unsigned' => true, 
+        'not null' => true, 
+        'default' => 0, 
+        ), 
+      'fecha_cambio' => array(
+        'description' => 'fecha del cambio',
+        'type' => 'varchar', 
+        'unsigned' => true, 
+        'not null' => true, 
+        'default' => 0, 
+        ) 
+    ),
+    'unique keys' => array(
+      'mid' => array('mid'),
+    ),
+    'primary key' => array('mid'),
+  );*/
   return $schema;
 }

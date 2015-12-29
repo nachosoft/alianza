@@ -26,6 +26,19 @@ function unit_paying_menu() {
     'access arguments' => array('usar caja'), 
     'type' => MENU_CALLBACK, 
   );
+  $items['cajas/corte/crear'] = array(
+    'title' => 'Corte de Caja',
+    'page callback' => 'unit_paying_corte_caja_crear', 
+    'access arguments' => array('usar caja'), 
+    'type' => MENU_CALLBACK, 
+  );
+
+  $items['admin/structure/cajas/reset'] = array(
+    'title' => 'Reiniciar cajas',
+    'page callback' => 'unit_paying_reset_caja', 
+    'access arguments' => array('reiniciar cajas'), 
+    'type' => MENU_CALLBACK, 
+  );
 
   return $items;
 }
@@ -55,13 +68,14 @@ function unit_paying_process(){
 
   // Revisar los ingredientes necesarios.
   if (isset($_GET['nid'])) {
+    // el id de la unidad
     $data['nid'] = $_GET['nid'];
   }else{
     return;
   }
 
   if (isset($_GET['concepts'])) {
-    $data['concepts'] = $_GET['concepts'];
+    $data['concepts'] = json_decode($_GET['concepts']);
   }else{
     return;
   }
@@ -74,8 +88,6 @@ function unit_paying_process(){
 
   if (isset($_GET['debt'])) {
     $data['debt'] = $_GET['debt'];
-  }else{
-    return;
   }
   
   if (isset($_GET['caja'])) {
@@ -86,7 +98,10 @@ function unit_paying_process(){
 
   $recibo = unit_paying_create_node($data, 'recibo',$user);
 
-  print_r($data);
+  unit_paying_process_precorte($_GET['cc'], $recibo);
+
+
+  print($recibo);
 }
 
 
@@ -136,3 +151,43 @@ function unit_paying_corte_caja(){
     print_r($recibo); exit;
   }
 }
+
+// Crear nuevo contenido de corte de caja
+function unit_paying_corte_caja_crear(){
+  if (isset($_GET['caja'])) {
+    $caja = $_GET['caja'];
+  } else {
+    return false;
+  }
+
+  // Crear el nodo
+  GLOBAL $user;
+  $node = unit_paying_create_node(array('caja'=>$caja),'corte',$user);
+  
+  //$node = 12324;
+  print(json_encode($node));
+
+}
+
+// Reiniciar las cajas 
+function unit_paying_reset_caja(){
+  $form = drupal_get_form('unit_paying_form');
+  return $form;
+} 
+
+
+// Preprocesar el corte de caja
+function unit_paying_process_precorte($cid, $nid){
+  if (!isset($cid) && !isset($nid)) {
+    return false;
+  }
+
+  $node = node_load($cid);
+
+  $node->field_recibos[LANGUAGE_NONE][]['target_id'] = $nid;
+
+  node_save($node);
+  
+  return;
+}
+

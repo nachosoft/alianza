@@ -29,7 +29,7 @@
     <?php endif; ?>
     <div class="print-content">
       <div id="header_recibo">
-        <h1>Transportes</h1>
+        <h3>Autotransportes pioneros de nayarit</h3>
       </div>
       <?php print $content; ?>
     </div>

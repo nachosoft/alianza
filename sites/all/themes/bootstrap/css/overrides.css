@@ -10,7 +10,7 @@ html.overlay-open .navbar-fixed-top{z-index:400}html.js fieldset.collapsed{heigh
   margin-bottom: 20px;
 }
 .card{
-  padding: 30px 0;
+  padding: 0 0 30px 0;
   display: flex
 }
 .card.little{
@@ -73,7 +73,7 @@ html.overlay-open .navbar-fixed-top{z-index:400}html.js fieldset.collapsed{heigh
 
 .actions{
   display: inline-block;
-  float: right;
+  margin: 0 40px;
 }
 
 .cobrar,
@@ -135,9 +135,27 @@ html.overlay-open .navbar-fixed-top{z-index:400}html.js fieldset.collapsed{heigh
   padding-top: 0;
 }
 
+
 .print-content .info_block{
   margin-top: 0;
-  border: solid 1px #000;
+  background: none;
+  margin: 0;
+}
+
+.print-content .view-mode-teaser_unidad{
+  padding: 2px;
+  border: solid 1px #c0c0c0;
+  margin-bottom: 0px;
+}
+
+.print-content .fecha{
+  float: left;
+  width: 120px;
+  margin-right: 10px;
+}
+
+.print-content .info_unidad{
+  margin-left: 130px;
 }
 
 .print-content #header_recibo{
@@ -168,3 +186,38 @@ html.overlay-open .navbar-fixed-top{z-index:400}html.js fieldset.collapsed{heigh
 #user-login-form ul li{
   display:none;
 }
+#block-system-main-menu{
+  position: fixed;
+  right: 0;
+  top: 20%;
+  padding:0;
+  background:rgba(0,0,0,0.2);
+}
+#block-system-main-menu h2.block-title{
+  background: url(../img/menu_opener.png) no-repeat left 10px center;
+  background-size: 30px;
+}
+#block-system-main-menu:hover{
+  cursor: pointer;
+  background:rgba(0,0,0,0.4);
+}
+
+#block-system-main-menu ul.menu.nav{
+  display:none ;
+}
+#block-system-main-menu.active ul.menu.nav,
+#block-system-main-menu:hover ul.menu.nav{
+  display: block;
+}
+#block-system-main-menu:hover ul li a{
+  color: #fff;
+}
+#block-system-main-menu:hover ul li a:hover{
+  color: #000;
+}
+
+#block-system-main-menu h2.block-title{
+  margin: 0;
+  padding: 10px 15px 10px 50px;
+}
+

@@ -39,8 +39,21 @@ jQuery(document).ready(function($){
     // Fecha de apertura
     localStorage.setItem('cajaOpen', n);
 
+    // Crear corte de caja
+    var request = $.ajax({
+      url: "/cajas/corte/crear",
+      method: "GET",
+      data: { caja : cajaValue },
+      dataType: "html"
+    });
+     
+    request.done(function( msg ) {
+      localStorage.setItem('cajaCorteNid', msg);
+      console.log('Nodo creado - '+ msg);
+    });
+
     location.reload();
-    return true;
+    return false;
   });
 
 });
@@ -52,6 +65,7 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
   $scope.ownerId = 0;
   $scope.ownerName = '';
   $scope.unitId = 0;
+  $scope.pagar = false;
 
   $scope.deudaStatus = 1;
   // Hace la suma de los conceptos y la deuda remanente de la unidad
@@ -120,6 +134,7 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
         success(function(data, status, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
+          //console.log(data);
           if (data[0]){
             $scope.noEconomico = data[0].node_title;
             $scope.deuda = data[0].Deuda;
@@ -164,7 +179,6 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
               $j.get( "/codes/unic", { unit: $scope.unitId, id: data[0].nid } )
                 .done(function( dat ) {
                   console.log(dat);
-                  console.log(dat);
                   if (parseInt(dat) == 0) {
                     alert('Este Dueño ya pago este concepto, al ser unico, el costo se volvera $0.00');
                     Valor = 0;
@@ -173,7 +187,6 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
                   };
                 });
             };
-            console.log(data[0].Valor);
             cData = {
               titulo  : data[0].Codigo +' '+ data[0].Concepto,
               valor   : data[0].Valor, 
@@ -183,6 +196,7 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
             $scope.conceptos.push(cData);
             $scope.deudaRecibo = $scope.calcularDeuda();
             $scope.codigo_message = 'Codigo de Concepto';
+            console.dir($scope.conceptos);
           } else {
             $scope.codigo_message = 'Codigo no valido';
           }
@@ -211,6 +225,7 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
       alert('Seleccione una unidad');
       return;
     };
+    console.log($scope.pagar);
     $scope.paraPagar = true;
   };
 
@@ -220,10 +235,25 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
 
   // Manda la llamada de ajax para crear el recibo, y abre el recibo en una ventana emergente
   $scope.terminarPago = function(){
-    
-    $http.get('/rest/units?no='+$scope.n_unidad).
+    var obj = {},
+    arr = $scope.conceptos;
+    l = arr.length; 
+
+    while( l && (obj[--l] = arr.pop() ) ){};
+    //console.log(JSON.stringify(obj));
+    console.log('/cajas/process?nid='+$scope.unitId+'&concepts='+JSON.stringify(obj)+'&caja='+localStorage["caja"]+'&payment='+$scope.pago+'&cc='+localStorage["cajaCorteNid"]);
+    $http.get('/cajas/process?nid='+$scope.unitId+'&concepts='+JSON.stringify(obj)+'&caja='+localStorage["caja"]+'&payment='+$scope.pago+'&cc='+localStorage["cajaCorteNid"]).
       success(function(data, status, headers, config) {
-          
+        console.log($scope.pagar);
+
+        if ($scope.pagar) {
+          var win = window.open('/node/'+parseInt(data), '_blank');
+          win.focus();
+        }else{
+          var win = window.open('/print/'+parseInt(data), '_blank');
+          win.focus();
+        };
+        
       }).
       error(function(data, status, headers, config) {
         // called asynchronously if an error occurs
@@ -231,7 +261,6 @@ cajaApp.controller('searchCtrl', ['$scope', '$http', function ($scope,$http) {
         console.log(data);
         console.log(status);
       });
-    console.log($scope.conceptos);
   }
 }]);
 

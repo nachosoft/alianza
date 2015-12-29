@@ -1,58 +1,56 @@
 <div id="caja" class="club" ng-app="cajaApp">
   <div class="caja_inner" ng-controller="searchCtrl">
-    <div class="selector_form">
-      <form id="selector" ng-submit="buscarNo()" style="display:inline-block">
-        <input type="text" ng-model="n_unidad" id="n_unidad" name="n_unidad" placeholder="No. de Unidad">
-        <label>
-          <input class="btn btn-info btn-lg" type="submit" value="buscar">
-        </label>
-      </form>
-      <div style="margin-left:20px; display:inline-block;">
-        <div class="btn btn-default btn-sm"  >
-          <label>
-            <input type="checkbox" ng-model="deudaStatus" name="deudaStatus" ng-true-value="0" ng-false-value="1">
-            <span>Ocultar deuda de unidad</span>
-          </label>
-        </div>
-        <button ng-click="deudaRecibo = calcularDeuda()" class="btn btn-info btn-lg" >
-          <span class="glyphicon glyphicon-refresh"></span> Actualizar
-        </button>
-      </div>
-    </div>
     <div class="info card">
       <div class="socio info_block odd">
         <div class="socio_title ">
-          <h2 class="socio_title title">Socio</h2>
+          <h2 class="socio_title title">Datos</h2>
         </div>
         <div class="info_item nombre">
           <span>Nombre:</span>
           <p ng-bind="ownerName"></p>
         </div>
-      </div>
-      <div class="unidad info_block even">
-        <h2 class="title">Unidad</h2>
+        
         <div class="info_item no_economico">
           <span>No Economico:</span>
           <p ng-bind="noEconomico"></p>
         </div>
-        <div class="info_item deuda">
+      <!-- <div class="info_item deuda">
           <span>Deuda:</span>
           <p>{{deuda | currency}}</p>
-        </div>
+        </div>-->
         <div class="info_item placas">
           <span>Placas:</span>
           <p ng-bind="placas"></p>
         </div>
       </div>
+
+      <div class="unidad info_block even">
+        <div class="selector_form">
+          <div class="cerrar_caja">
+            <button ng-click='cierreCaja()' class="btn btn-info btn-lg">Cerrar Caja</button>
+          </div>
+          <div style="margin-left:20px; display:inline-block;">
+            <div class="btn btn-default btn-sm"  >
+              <label>
+                <input type="checkbox" ng-model="deudaStatus" name="deudaStatus" ng-true-value="0" ng-false-value="1">
+                <span>Ocultar deuda de unidad</span>
+              </label>
+            </div>
+            <button ng-click="deudaRecibo = calcularDeuda()" class="btn btn-info btn-lg" >
+              <span class="glyphicon glyphicon-refresh"></span> Actualizar
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="recibo">
-      <div class="cerrar_caja">
-        <button ng-click='cierreCaja()' class="btn btn-info btn-lg">Cerrar Caja</button>
-      </div>
-      <div class="cobrar">
-        <button ng-click='abrirPago()' class="btn btn-success btn-lg">Cobrar</button>
-      </div>
+      <form id="selector" ng-submit="buscarNo()" style="display:inline-block">
+        <input type="text" ng-model="n_unidad" id="n_unidad" name="n_unidad" placeholder="No. de Unidad" autofocus>
+        <label>
+          <input class="btn btn-info btn-lg" type="submit" value="buscar">
+        </label>
+      </form>
       <div class="actions">
           <div class="add_concepts">
             <form id="add_form" ng-submit="buscarCodigo()">
@@ -61,7 +59,10 @@
               <input type="submit" class="btn btn-info btn-lg" value="Agregar Concepto">
             </form>
           </div>
-        </div>
+      </div>
+      <div class="cobrar">
+        <button ng-click='abrirPago()' class="btn btn-success btn-lg">Cobrar</button>
+      </div>
       <div class="conceptos">
         <table class="table table-striped table-responsive">
           <caption>Conceptos</caption>
@@ -113,6 +114,8 @@
         <input type="number" id="pago" name="pago"  ng-model="pago" placeholder="$0.00">
         <div><h3> {{calcularCambio()}}</h3></div>
         <input class="btn btn-success btn-lg" type="submit" value="pagar">
+
+        <label for="pagar"><input type="checkbox" id="pagar" name="pagar" ng-model="pagar" checked>  Solo crear recibo / no pagar</label>
       </form>
     </div>
   </div>
