@@ -40,6 +40,14 @@ function unit_paying_menu() {
     'type' => MENU_CALLBACK, 
   );
 
+  $items['cajas/crear/poliza/%'] = array(
+    'title' => 'Poliza',
+    'page callback' => 'unit_paying_crear_poliza', 
+    'access arguments' => array('usar caja'), 
+    'page arguments' => array(3),
+    'type' => MENU_CALLBACK, 
+  );
+
   return $items;
 }
 
@@ -187,7 +195,32 @@ function unit_paying_process_precorte($cid, $nid){
   $node->field_recibos[LANGUAGE_NONE][]['target_id'] = $nid;
 
   node_save($node);
-  
+
   return;
+}
+
+// Generador de poliza
+function unit_paying_crear_poliza($nid){
+  if (!isset($nid) && $nid == 0) {
+    return ;
+  }
+  $node = node_load($nid);
+
+  $vars = array(
+    'no_economico' => NULL, 
+    'nombre' => NULL, 
+    'marca' => NULL, 
+    'placas' => NULL,
+    'modelo' => NULL,
+    'motor' => NULL,
+    'serie' => NULL,
+    'fecha_vencimiento' => NULL,
+    'fecha_creacion' => NULL, 
+  );
+
+  $output = theme('unit_paying_poliza',$vars );
+  print_r($output); exit;
+
+  
 }
 
